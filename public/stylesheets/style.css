@@ -1,0 +1,278 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00b7ff;
+}
+
+g.option {
+  cursor: pointer;
+}
+
+g.selected > path {
+  /*  stroke-width: 50 !important;*/
+  opacity: 0;
+}
+
+g.option:hover {
+  opacity: 0.5;
+}
+
+.svg-wrapper {
+  position: relative;
+}
+.game-info-text {
+  margin-top: -10px;
+}
+.your-selection {
+  text-transform: capitalize;
+}
+.weaknesses-strengths {
+  font-size: 0.8em;
+}
+.blue {
+  transition: all linear 0.5s;
+  color: blue !important;
+  fill: blue !important;
+  stroke: blue !important;
+}
+.red {
+  transition: all linear 0.5s;
+  color: red !important;
+  fill: red !important;
+  stroke: red !important;
+}
+@media only screen and (max-width: 991px) {
+  svg {
+    height: 300px;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .weaknesses-strengths {
+    font-size: 1.5em;
+  }
+
+  .weaknesses-strengths > span {
+  }
+}
+
+.wins {
+  color: blue;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.losses {
+  color: red;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+.versus {
+  margin-top: 40px;
+  font-size: 2em;
+  text-align: center;
+}
+
+.game-counter {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.list-group {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.user-busy {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.list-group-item:hover {
+  opacity: 0.5;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.waitingForUserResponseBackground {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: grey;
+  opacity: 0.3;
+  cursor: pointer;
+  z-index: 10;
+  display: inline-block;
+  width: 100%;
+}
+
+.waitingForUserResponse {
+  background-color: white;
+  border-radius: 10px;
+  z-index: 11;
+  max-width: 300px;
+  position: fixed;
+  padding: 25px;
+  display: inline-block;
+  margin-left: -150px;
+}
+.loader {
+  margin: 100px auto;
+  font-size: 25px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load5 1.1s infinite ease;
+  animation: load5 1.1s infinite ease;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes load5 {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #000000,
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.5),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.7),
+      1.8em -1.8em 0 0em #000000, 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.5),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7), 2.5em 0em 0 0em #000000,
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.5), 2.5em 0em 0 0em rgba(0, 0, 0, 0.7),
+      1.75em 1.75em 0 0em #000000, 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.5),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.7), 0em 2.5em 0 0em #000000,
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.5), 0em 2.5em 0 0em rgba(0, 0, 0, 0.7),
+      -1.8em 1.8em 0 0em #000000, -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.5),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.7), -2.6em 0em 0 0em #000000,
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.5), -2.6em 0em 0 0em rgba(0, 0, 0, 0.7),
+      -1.8em -1.8em 0 0em #000000;
+  }
+}
+@keyframes load5 {
+  0%,
+  100% {
+    box-shadow: 0em -2.6em 0em 0em #000000,
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.5),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);
+  }
+  12.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.7),
+      1.8em -1.8em 0 0em #000000, 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.5);
+  }
+  25% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.5),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7), 2.5em 0em 0 0em #000000,
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  37.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.5), 2.5em 0em 0 0em rgba(0, 0, 0, 0.7),
+      1.75em 1.75em 0 0em #000000, 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.5),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.7), 0em 2.5em 0 0em #000000,
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  62.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.5), 0em 2.5em 0 0em rgba(0, 0, 0, 0.7),
+      -1.8em 1.8em 0 0em #000000, -2.6em 0em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  75% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.5),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.7), -2.6em 0em 0 0em #000000,
+      -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2);
+  }
+  87.5% {
+    box-shadow: 0em -2.6em 0em 0em rgba(0, 0, 0, 0.2),
+      1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), 2.5em 0em 0 0em rgba(0, 0, 0, 0.2),
+      1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), 0em 2.5em 0 0em rgba(0, 0, 0, 0.2),
+      -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.5), -2.6em 0em 0 0em rgba(0, 0, 0, 0.7),
+      -1.8em -1.8em 0 0em #000000;
+  }
+}

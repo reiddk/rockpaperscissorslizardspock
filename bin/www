@@ -1,0 +1,225 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('rockpaperscissorslizardspock:server');
+var http = require('http');
+const { setFlagsFromString } = require('v8');
+
+const portTolisten = process.env.PORT || '3000'
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(portTolisten);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+const io = require('socket.io')(server);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+console.log("App is at http://localhost:"+portTolisten);
+
+
+const idToSockets = {};
+const roomIDs = {};
+
+function broadcastUsers() {
+  const users = Object.keys(idToSockets).map(key => {
+    return {
+      id: key,
+      name:idToSockets[key].name,
+      active: idToSockets[key].socket.connected,
+      inGameWith:idToSockets[key].inGameWith || '',
+      inGame: idToSockets[key].inGame || null,
+      roomID: idToSockets[key].roomID || ''
+    };
+  }).filter(obj => obj.active );
+  io.sockets.emit('broadcast', users);
+}
+
+function cancelRequest(socketKey) {
+  for (const key of Object.keys(idToSockets)) {
+    const value = idToSockets[key];
+    if (value.inGameWith === socketKey) {
+      value.inGameWith = '';
+      value.inGame = false;
+      value.socket.leave(value.roomID);
+      value.roomID = '';
+      delete roomIDs[value.roomID];
+    }
+  }
+  broadcastUsers();
+}
+
+function confirmRequest(socketKey, roomID) {
+  for (const key of Object.keys(idToSockets)) {
+    const value = idToSockets[key];
+    if (value.inGameWith === socketKey) {
+      value.inGameWith = socketKey;
+      value.inGame = true;
+      value.roomID = roomID;
+      value.socket.join(roomID);
+      roomIDs[value.roomID] = true;
+    }
+  }
+  broadcastUsers();
+}
+
+function makeRequest(requesterID, opponentID) {
+  const requester = idToSockets[requesterID] || null;
+  const opponent = idToSockets[opponentID] || null;
+  if (requester && opponent && !requester.inGameWith && !opponent.inGameWith) {
+    requester.inGameWith = opponentID;
+    opponent.inGameWith = requesterID;
+  }
+  
+  broadcastUsers();
+}
+
+function countDownGame() {
+
+}
+
+io.use(function (socket, next) {
+  idToSockets[socket.handshake.query.id] = {
+    socket,
+    name: '',
+    inGame:false,
+    inGameWith:'',
+    roomID: ''
+  };
+  next();
+});
+
+setInterval(() => {
+  for (const key of Object.keys(roomIDs)) {
+    io.sockets.in(key).emit("dd", "");
+  }
+},1000);
+
+io.on('connection', (socket) => {
+  
+  broadcastUsers();
+ /* idToSockets[socket.handshake.query.id].socket.on('sendMessage', (val) => {
+    console.log(val);
+  });*/
+  socket.on('name', (val) => {
+    idToSockets[socket.handshake.query.id].name = val;
+    broadcastUsers();
+  });
+
+  socket.on('cancelRequest', (vals) => {
+    for (const val of vals) {
+      cancelRequest(val);
+    }
+  });
+
+  socket.on('confirmRequest', (vals) => {
+    const roomID = vals.join("_");
+    for (const val of vals) {
+      confirmRequest(val, roomID);
+    }
+  });
+
+
+  socket.on('makeRequest', (request) => {
+    makeRequest(request.id, request.opponentID);
+  });
+
+  socket.on('disconnect', () => {
+    cancelRequest(socket.handshake.query.id);
+    for (const [key, value] of Object.entries(idToSockets)) {
+      if (!value.socket.connected) {
+        delete idToSockets[key];
+      }
+    }
+    broadcastUsers();
+  });
+
+  socket.on('myVal', (val) => {
+    if (!(val && val.id && idToSockets[val.id])) {
+      return;
+    }
+    const tempSocket = idToSockets[val.id];
+    if (tempSocket.roomID && 
+      roomIDs[tempSocket.roomID]) {
+        io.sockets.in(tempSocket.roomID).emit('opponentResult', val);
+    }
+  });
+
+});
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
