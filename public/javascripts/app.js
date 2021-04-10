@@ -178,7 +178,7 @@ new Vue({
     },
     mounted() {
         this.uniqueIdentifier = Math.random().toString(36).substring(7);
-        this.socket = io("http://ec2-18-222-204-240.us-east-2.compute.amazonaws.com/:3000/", {query:`id=${this.uniqueIdentifier}`});
+        this.socket = io("http://ec2-18-222-204-240.us-east-2.compute.amazonaws.com:3000/", {query:`id=${this.uniqueIdentifier}`});
 
         this.socket.on('broadcast', this.updateUsers);
         this.socket.on('dd', this.updateTimeRemaining);
